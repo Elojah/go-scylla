@@ -2,5 +2,9 @@ package scylla
 
 // Config is scylla config.
 type Config struct {
-	// Hostname string `json:"hostname" env:"GRPC_CLIENT_HOSTNAME" env-default:"0.0.0.0"`
+	Hosts       []string `json:"hosts" env:"SCYLLA_HOSTS"`
+	Username    string   `json:"username" env:"SCYLLA_USERNAME"`
+	Password    string   `json:"password" env:"SCYLLA_PASSWORD"`
+	Keyspace    string   `json:"keyspace" env:"SCYLLA_KEYSPACE"`
+	Consistency string   `json:"consistency" env:"SCYLLA_CONSISTENCY"`
 }
