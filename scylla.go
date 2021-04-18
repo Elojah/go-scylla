@@ -4,12 +4,11 @@ import (
 	"context"
 
 	"github.com/gocql/gocql"
-	"github.com/scylladb/gocqlx/v2"
 )
 
 // Service embed a scylla client.
 type Service struct {
-	gocqlx.Session
+	*gocql.Session
 }
 
 // Dial connects scylla client.
@@ -31,13 +30,9 @@ func (s *Service) Dial(ctx context.Context, cfg Config) error {
 
 	cluster.Consistency = consistency
 
-	// Wrap session on creation, gocqlx session embeds gocql.Session pointer.
-	s.Session, err = gocqlx.WrapSession(cluster.CreateSession())
-	if err != nil {
-		return err
-	}
+	s.Session, err = cluster.CreateSession()
 
-	return nil
+	return err
 }
 
 // Close closes scylla client.
