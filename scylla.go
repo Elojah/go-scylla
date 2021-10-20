@@ -2,6 +2,7 @@ package scylla
 
 import (
 	"context"
+	"time"
 
 	"github.com/gocql/gocql"
 )
@@ -21,6 +22,14 @@ func (s *Service) Dial(ctx context.Context, cfg Config) error {
 	cluster.Authenticator = gocql.PasswordAuthenticator{
 		Username: cfg.Username,
 		Password: cfg.Password,
+	}
+
+	if cfg.Timeout != 0 {
+		cluster.Timeout = time.Duration(cfg.Timeout) * time.Millisecond
+	}
+
+	if cfg.TimeoutConnect != 0 {
+		cluster.ConnectTimeout = time.Duration(cfg.TimeoutConnect) * time.Millisecond
 	}
 
 	var consistency gocql.Consistency
